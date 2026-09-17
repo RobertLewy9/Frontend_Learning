@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>移动端布局</title>
+    <style>
+        /* html{
+            font-size: 36px;
+        } */
+        .box-px{
+            background-color: aqua;
+            width: 300px;
+            height: 100px;
+        }
+        .box-rem{
+            background-color: red;
+            width: 5rem;
+            height: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="box-px"></div>
+    <hr>
+    <div class="box-rem"></div>
+
+    <script>
+        //根据设备宽度计算HTML标签的font-size值，即设备宽度的1/10
+        function resetHTMLfontsize(){
+            // console.log(document.documentElement);
+            document.documentElement.style.fontSize=screen.width/10+'px';
+        
+        }
+
+        resetHTMLfontsize();
+
+        //绑定事件
+        window.onresize=resetHTMLfontsize;
+    </script>
+</body>
+</html>

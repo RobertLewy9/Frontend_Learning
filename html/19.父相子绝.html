@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* 父相：原地不动，但给子元素提供定位参考 */
+.image-container {
+    position: relative; 
+    display: inline-block; /* 让容器大小刚好包裹图片 */
+}
+
+/* 子绝：脱离文档流，精准钉在父容器的右上角 */
+.badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: red;
+    color: white;
+    padding: 5px;
+}
+    </style>
+</head>
+<body>
+    <div class="image-container"> <!-- 父级：负责占位并限制范围 -->
+    <img src="../assets/dej.jpg" alt="商品图片">
+    <span class="badge">新品</span> <!-- 子级：负责自由定位 -->
+</div>
+</body>
+</html>

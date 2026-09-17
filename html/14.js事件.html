@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>js事件</title>
+    <style>
+        .button-appearance{
+            background-color: aqua;
+            border: 20px;
+            margin: 1px;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="click_event()" class="button-appearance">这是一个点击事件按钮</button>
+    <input type="text" onfocus="focus_event()" onblur="blur_event()">
+    <script>
+        //点击事件
+        function click_event(){
+            alert('点击事件出发了');
+        }
+        //聚焦事件
+        function focus_event(){
+            console.log('获取焦点');
+        }
+        //失去焦点事件
+        function blur_event(){
+            console.log('失去焦点');
+        }
+    </script>
+</body>
+</html>

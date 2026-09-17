@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Defer 演示</title>
+    <!-- 
+      注意：虽然写在 head 里，但 defer 会让它们等 HTML 解析完再执行。
+      并且，严格按照书写顺序执行！
+    -->
+    <script src="../js/22.defer-1-定义函数.js" defer></script>
+    <script src="../js/22.defer-2-调用函数.js" defer></script>
+</head>
+<body>
+    <h1>打开控制台查看执行顺序</h1>
+</body>
+</html>

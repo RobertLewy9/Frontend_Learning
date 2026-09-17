@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>css选择器 - 完整示例</title>
+    <style>
+        /* ============ 你原有的选择器示例（保留不变） ============ */
+        /* 1. 元素选择器 */
+        h2 {
+            color: aqua;
+        }
+
+        /* 2. 类选择器 */
+        .highlight {
+            background-color: yellow;
+        }
+
+        /* 3. ID选择器 */
+        #header {
+            font-size: 36px;
+        }
+
+        /* 4. 通用选择器（影响所有元素） */
+        * {
+            font-family: "kaiti", "楷体", serif;
+            font-weight: bolder;
+        }
+
+        /* 5. 子元素选择器（只影响直接子元素） */
+        .father>.son {
+            color: rgb(245, 11, 253);
+        }
+
+        /* 6. 后代选择器（影响所有后代） */
+        .father p {
+            color: rgb(16, 19, 236);
+        }
+
+        /* 7. 相邻兄弟选择器（紧跟在h3后面的p） */
+        h3+p {
+            background-color: crimson;
+        }
+
+        /* 8. 伪类 :hover （状态变化） */
+        #element:hover {
+            background-color: blueviolet;
+        }
+
+        /* ============ 新增：伪类选择器演示（结构伪类） ============ */
+        /* 选中列表中的第一个 li */
+        .demo-list li:first-child {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* 选中列表中的最后一个 li */
+        .demo-list li:last-child {
+            color: blue;
+            font-style: italic;
+        }
+
+        /* 选中列表中的第 3 个 li（n从1开始） */
+        .demo-list li:nth-child(3) {
+            background-color: lightgreen;
+        }
+
+        /* 选中除了指定类以外的元素（演示 :not） */
+        .demo-list li:not(.special) {
+            border-bottom: 1px dashed #ccc;
+        }
+
+        /* ============ 新增：伪元素选择器演示（::before 和 ::after） ============ */
+        .demo-box {
+            width: 300px;
+            padding: 20px;
+            margin: 20px 0;
+            background-color: #f0f0f0;
+            border: 2px solid #333;
+            position: relative;
+        }
+
+        /* ::before —— 在元素内容的最前面插入虚拟内容 */
+        .demo-box::before {
+            content: "【开始】";   
+            color: green;
+            font-size: 20px; 
+            margin-right: 10px; 
+            width: 10px;
+        }
+
+        /* ::after —— 在元素内容的最后面插入虚拟内容 */
+        .demo-box::after {
+            content: "【结束】";
+            color: red;
+            font-size: 20px;
+            margin-left: 10px;
+        }
+
+        .demo-box::first-letter{
+            color: rgb(166, 17, 185);
+        }
+
+        .demo-box::first-line{
+            color: red;
+        }
+
+        .demo-box::selection{
+            color: gold;
+        }
+        
+        /* 额外演示：使用伪元素给段落添加引号 */
+        .quote::before {
+            content: "“";
+            font-size: 30px;
+            color: #999;
+        }
+        .quote::after {
+            content: "”";
+            font-size: 30px;
+            color: #999;
+        }
+
+        /* 让页面稍微整洁些 */
+        hr {
+            margin: 30px 0;
+            border: 1px solid #ddd;
+        }
+        .demo-list {
+            list-style: none;
+            padding: 0;
+        }
+        .demo-list li {
+            padding: 6px 12px;
+            background: #fff;
+            margin: 4px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>不同类型的CSS选择器</h1>
+
+    <!-- ====== 你原有的示例 ====== -->
+    <h2>这是一个元素选择器示例</h2>
+
+    <h3 class="highlight">这是一个类选择器示例</h3>
+    <h3>这是另一个类选择器示例</h3>
+
+    <h4 id="header">这是一个ID选择器示例</h4>
+
+    <div class="father">
+        <p class="son">这是一个子元素选择器示例（直接子元素）</p>
+        <div>
+            <p class="grandson">这是一个后代选择器示例（后代元素）</p>
+        </div>
+    </div>
+    <p>这是一个普通P标签</p>
+    <h3>这是一个相邻兄弟选择器示例</h3>
+    <p>这是另一个P标签（紧挨着上面h3，所以背景变红）</p>
+
+    <h3 id="element">这是一个伪类选择器示例（鼠标悬停变紫）</h3>
+
+    <hr>
+
+    <!-- ====== 新增：伪类（结构伪类）演示 ====== -->
+    <h2>📌 伪类选择器（:）—— 选中特定位置 / 状态</h2>
+    <ul class="demo-list">
+        <li>第1项（:first-child → 红色加粗）</li>
+        <li>第2项</li>
+        <li class="special">第3项（:nth-child(3) → 背景绿色）</li>
+        <li>第4项</li>
+        <li>第5项（:last-child → 蓝色斜体）</li>
+    </ul>
+    <p style="font-weight: normal; font-family: sans-serif;">
+        <strong>观察：</strong>第1项红加粗，第3项绿背景，第5项蓝斜体；
+        除了 class="special" 的第3项外，其他都带有虚线底边（:not 效果）。
+    </p>
+
+    <hr>
+
+    <!-- ====== 新增：伪元素（::before / ::after）演示 ====== -->
+    <h2>📌 伪元素选择器（::）—— 生成虚拟内容</h2>
+    <div class="demo-box">
+        我是一个普通的 div，但前后被插入了 “【开始】” 和 “【结束】” （通过 ::before 和 ::after）
+    </div>
+
+    <p class="quote">
+        这是一句引文，前后被插入了双引号（通过 ::before 和 ::after）
+    </p>
+
+    <p style="font-weight: normal; font-family: sans-serif;">
+        <strong>注意：</strong> 伪元素必须设置 <code>content</code> 属性才能显示，
+        且它们在 DOM 中看不见，但在浏览器 F12 的 Elements 面板中能看到 <code>::before</code> / <code>::after</code> 的虚拟节点。
+    </p>
+
+</body>
+</html>

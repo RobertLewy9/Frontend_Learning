@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS 核心布局与显示模式对比</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background: #f9f9f9; }
+        .demo-section { background: #fff; padding: 15px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h3 { margin-top: 0; border-bottom: 1px dashed #ccc; padding-bottom: 5px; color: #333; }
+        
+        /* 通用盒子样式 */
+        .box { padding: 10px; margin: 5px; color: #fff; text-align: center; font-weight: bold; }
+        .bg-red { background-color: #e74c3c; }
+        .bg-blue { background-color: #3498db; }
+        .bg-green { background-color: #2ecc71; }
+        .bg-yellow { background-color: #f1c40f; color: #333 !important; }
+
+        /* 1. hidden vs collapse 演示 */
+        table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+        td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .hide-visibility { visibility: hidden; }
+        .hide-collapse { visibility: collapse; }
+
+        /* 2. inline vs inline-block 演示 */
+        .inline-box { display: inline; width: 100px; height: 50px; }
+        .inline-block-box { display: inline-block; width: 100px; height: 50px; }
+
+        /* 3. Flex vs Grid 演示 */
+        .flex-container {
+            display: flex; /* 一维布局：默认横向排列 */
+            gap: 10px;
+            background: #eee; padding: 10px;
+        }
+        .grid-container {
+            display: grid; /* 二维布局：同时控制行和列 */
+            grid-template-columns: repeat(3, 1fr); /* 3列等宽 */
+            gap: 10px;
+            background: #eee; padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. visibility: hidden vs collapse -->
+    <div class="demo-section">
+        <h3>1. hidden vs collapse (表格专属)</h3>
+        <p>hidden：看不见，但<strong>占位</strong>（看下面的空白）；collapse：看不见，且<strong>不占位</strong>（列直接消失）</p>
+        <table>
+            <tr>
+                <td>正常列</td>
+                <td class="hide-visibility bg-red">hidden (占位)</td>
+                <td class="hide-collapse bg-blue">collapse (不占位)</td>
+                <td>正常列</td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- 2. inline vs inline-block -->
+    <div class="demo-section">
+        <h3>2. inline vs inline-block</h3>
+        <p>inline：不换行，但<strong>宽高无效</strong>；inline-block：不换行，且<strong>宽高有效</strong></p>
+        <div class="box bg-red inline-box">inline (宽高无效)</div>
+        <div class="box bg-blue inline-block-box">inline-block (宽高有效)</div>
+        <div class="box bg-green inline-block-box">inline-block 2</div>
+    </div>
+
+    <!-- 3. Flex vs Grid -->
+    <div class="demo-section">
+        <h3>3. Flex (一维) vs Grid (二维)</h3>
+        <p><strong>Flex：</strong>只管一行怎么排。适合导航栏、按钮组。</p>
+        <div class="flex-container">
+            <div class="box bg-red">Flex 1</div>
+            <div class="box bg-blue">Flex 2</div>
+            <div class="box bg-green">Flex 3</div>
+        </div>
+
+        <p style="margin-top: 15px;"><strong>Grid：</strong>同时管行和列。适合复杂的页面骨架、相册。</p>
+        <div class="grid-container">
+            <div class="box bg-red">Grid 1</div>
+            <div class="box bg-blue">Grid 2</div>
+            <div class="box bg-green">Grid 3</div>
+            <div class="box bg-yellow">Grid 4</div>
+            <div class="box bg-red">Grid 5</div>
+            <div class="box bg-blue">Grid 6</div>
+        </div>
+    </div>
+
+</body>
+</html>

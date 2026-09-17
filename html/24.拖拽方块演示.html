@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>拖拽方块演示</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 50px;
+            background-color: #f5f5f5;
+        }
+
+        .box {
+            width: 100px;
+            height: 100px;
+            background-color: #4CAF50; /* 默认绿色 */
+            position: absolute; /* 必须使用绝对定位才能自由移动 */
+            cursor: grab;       /* 鼠标变成抓取图标 */
+            border-radius: 8px;
+            transition: background-color 0.2s, outline 0.2s; /* 平滑过渡 */
+            user-select: none;  /* 防止拖拽时选中文字 */
+        }
+
+        /* 悬停状态 */
+        .box:hover {
+            background-color: #45a049;
+        }
+
+        /* 拖拽激活状态：颜色变深 + 出现轮廓 */
+        .box.dragging {
+            background-color: #2e7d32; /* 颜色明显变深 */
+            outline: 3px solid #b4b1ad; /* 橙色轮廓 */
+            cursor: grabbing;          /* 鼠标变成抓取中图标 */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="box" id="dragBox">拖动我</div>
+
+    <script>
+        const box = document.getElementById('dragBox');
+        let isDragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        // 1. 鼠标按下
+        box.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            // 记录鼠标按下时，距离方块左上角的偏移量
+            offsetX = e.clientX - box.offsetLeft;
+            offsetY = e.clientY - box.offsetTop;
+            
+            // 添加拖拽样式（触发颜色变深和轮廓）
+            box.classList.add('dragging');
+        });
+
+        // 2. 鼠标移动（绑定在 document 上，防止鼠标移出方块后失效）
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+
+            // 计算方块的新位置
+            let newLeft = e.clientX - offsetX;
+            let newTop = e.clientY - offsetY;
+
+            // 赋值给方块
+            box.style.left = newLeft + 'px';
+            box.style.top = newTop + 'px';
+        });
+
+        // 3. 鼠标松开（同样绑定在 document 上）
+        document.addEventListener('mouseup', function() {
+            if (isDragging) {
+                isDragging = false;
+                // 移除拖拽样式（恢复默认颜色，隐藏轮廓）
+                box.classList.remove('dragging');
+            }
+        });
+    </script>
+</body>
+</html>

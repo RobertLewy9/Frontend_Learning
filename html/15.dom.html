@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom</title>
+    
+</head>
+<body>
+     <div id="box1">这是ID选择器标签</div>
+     <div class="box2">这是类选择器标签</div>
+     <div>普通div标签</div>
+     <button>点击按钮</button>
+
+     <script>
+        var element_id=document.getElementById('box1');
+        console.log(element_id);
+        var element_class=document.getElementsByClassName('box2')[0];
+        console.log(element_class);
+        var element_tag=document.getElementsByTagName('div')[2];
+        console.log(element_tag);
+        element_id.innerHTML='修改ID选择器标签文本内容';
+        element_class.innerText='修改类选择器标签文本内容';
+        element_tag.style.color='red';
+        element_tag.style.fontSize='66px';
+
+        //DOM属性绑定事件
+        var button_element=document.getElementsByTagName('button')[0];
+        console.log(button_element);
+        let id='Robert';
+        
+        button_element.addEventListener('click',click_notice);
+        function click_notice(){
+            alert('DOM属性，按键触发，欢迎！'+id);
+        }
+    
+    
+    </script>
+</body>
+</html>
