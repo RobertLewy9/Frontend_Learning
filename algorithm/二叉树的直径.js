@@ -55,7 +55,7 @@ const diameterOfBinaryTree=function(root){
     const R=depth(node.right);
 
     ans=Math.max(ans,L+R+1);
-    return Math.max(L,R)+1;
+    return Math.max(L,R)+1;二叉树的层序遍历
     }
     depth(root);
     return ans-1;
