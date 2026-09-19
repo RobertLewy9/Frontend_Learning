@@ -27,7 +27,6 @@ b.then((data)=>{
 
 
 //3
-
 const c=new Promise((resolve)=>
     {
         const queue=[];
