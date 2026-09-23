@@ -1,6 +1,6 @@
-# 前端学习笔记 (front-end-practice)
+# Studying Notions (front-end-practice)
 
-HTML / CSS / JavaScript 基础练习集合。所有页面均为纯静态文件，双击即可在浏览器打开。
+
 
 ## 目录结构
 
