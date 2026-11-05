@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>25.推箱子</title>
+    <style>
+        :root {
+            --bg: #0b1220;
+            --panel: #131d31;
+            --line: #26334d;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+            --accent: #38bdf8;
+            --target: #fbbf24;
+            --floor: #243049;
+            --ok: #22c55e;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 24px 16px;
+            font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+            color: var(--text);
+            background: radial-gradient(circle at 50% 0%, #1e293b 0%, var(--bg) 65%);
+        }
+
+        .game { width: 100%; max-width: 620px; }
+
+        .hud {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 8px 16px;
+            margin-bottom: 14px;
+        }
+
+        .hud h1 {
+            margin: 0;
+            font-size: 24px;
+            letter-spacing: 2px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 14px;
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        .stats b {
+            color: var(--text);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .board-wrap {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, .45);
+        }
+
+        .board { display: grid; }
+
+        .cell {
+            position: relative;
+            border-radius: 4px;
+            background: var(--floor);
+        }
+
+        .cell.wall {
+            background: linear-gradient(180deg, #56688c 0%, #3b4a67 100%);
+            box-shadow: inset 0 2px 0 rgba(255, 255, 255, .14),
+                        inset 0 -2px 0 rgba(0, 0, 0, .28);
+        }
+
+        .cell.target::before {
+            content: "";
+            position: absolute;
+            inset: 33%;
+            border-radius: 50%;
+            background: var(--target);
+            box-shadow: 0 0 10px rgba(251, 191, 36, .65);
+            animation: pulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: .85; }
+            50% { transform: scale(.78); opacity: 1; }
+        }
+
+        .box {
+            position: absolute;
+            inset: 11%;
+            border-radius: 5px;
+            background: linear-gradient(145deg, #f0a24b, #c2751f);
+            border: 2px solid #8a4f10;
+            box-shadow: inset 0 2px 0 rgba(255, 255, 255, .35),
+                        0 3px 6px rgba(0, 0, 0, .35);
+            transition: background .16s ease, border-color .16s ease;
+        }
+
+        .box::before {
+            content: "";
+            position: absolute;
+            inset: 20%;
+            border: 2px solid rgba(122, 66, 8, .55);
+            border-radius: 2px;
+        }
+
+        .box.on-target {
+            background: linear-gradient(145deg, #86efac, var(--ok));
+            border-color: #15803d;
+        }
+
+        .box.on-target::before { border-color: rgba(21, 128, 61, .55); }
+
+        .player {
+            position: absolute;
+            inset: 14%;
+            border-radius: 50%;
+            background: radial-gradient(circle at 34% 28%, #bae6fd 0%, #38bdf8 45%, #1d4ed8 100%);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, .45);
+        }
+
+        .player::before,
+        .player::after {
+            content: "";
+            position: absolute;
+            top: 32%;
+            width: 15%;
+            height: 20%;
+            border-radius: 50%;
+            background: #0b1220;
+        }
+
+        .player::before { left: 28%; }
+        .player::after { right: 28%; }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        button {
+            font: inherit;
+            color: var(--text);
+            background: #1b2740;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            padding: 8px 14px;
+            cursor: pointer;
+            transition: background .15s ease, border-color .15s ease, transform .06s ease;
+        }
+
+        button:hover:not(:disabled) {
+            background: #24324f;
+            border-color: #3c5177;
+        }
+
+        button:active:not(:disabled) { transform: translateY(1px); }
+        button:disabled { opacity: .45; cursor: not-allowed; }
+
+        button.primary {
+            background: linear-gradient(180deg, #38bdf8, #0ea5e9);
+            border-color: #0284c7;
+            color: #04121f;
+            font-weight: 600;
+        }
+
+        .level-pick { display: inline-flex; gap: 6px; }
+
+        .level-pick button {
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            border-radius: 50%;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .level-pick button.active {
+            color: #04121f;
+            background: var(--accent);
+            border-color: #0ea5e9;
+            font-weight: 700;
+        }
+
+        .dpad {
+            display: grid;
+            grid-template-areas:
+                ". up ."
+                "left . right"
+                ". down .";
+            grid-template-columns: repeat(3, 46px);
+            grid-template-rows: repeat(3, 46px);
+            gap: 6px;
+            justify-content: center;
+            margin: 18px auto 0;
+        }
+
+        .dpad button { padding: 0; font-size: 18px; border-radius: 11px; }
+        .dpad-up { grid-area: up; }
+        .dpad-left { grid-area: left; }
+        .dpad-down { grid-area: down; }
+        .dpad-right { grid-area: right; }
+
+        .hint {
+            margin: 14px 0 0;
+            text-align: center;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .win {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-content: center;
+            gap: 10px;
+            text-align: center;
+            background: rgba(8, 13, 24, .86);
+            border-radius: 16px;
+            backdrop-filter: blur(2px);
+            animation: fade .18s ease;
+        }
+
+        .win[hidden] { display: none; }
+
+        .win-title {
+            margin: 0;
+            font-size: 30px;
+            letter-spacing: 3px;
+            color: #86efac;
+        }
+
+        .win-detail { margin: 0; font-size: 14px; color: var(--muted); }
+        .win button { justify-self: center; margin-top: 4px; }
+
+        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+        @media (max-width: 480px) {
+            .hud h1 { font-size: 20px; }
+            .stats { gap: 10px; font-size: 13px; }
+            .board-wrap { padding: 6px; }
+        }
+    </style>
+</head>
+<body>
+    <main class="game">
+        <header class="hud">
+            <h1>推 箱 子</h1>
+            <div class="stats">
+                <span>关卡 <b id="level">1 / 4</b></span>
+                <span>步数 <b id="moves">0</b></span>
+                <span>推动 <b id="pushes">0</b></span>
+            </div>
+        </header>
+
+        <div class="board-wrap">
+            <div class="board" id="board" aria-label="推箱子棋盘"></div>
+            <div class="win" id="win" hidden>
+                <p class="win-title">过关！</p>
+                <p class="win-detail" id="winDetail"></p>
+                <button type="button" class="primary" id="nextBtn">下一关</button>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button type="button" id="restartBtn">重新开始 (R)</button>
+            <button type="button" id="undoBtn">撤销 (Z)</button>
+            <span class="level-pick" id="levelPick" aria-label="选择关卡"></span>
+        </div>
+
+        <div class="dpad" aria-label="方向控制">
+            <button type="button" class="dpad-up" data-dir="-1,0" aria-label="上">↑</button>
+            <button type="button" class="dpad-left" data-dir="0,-1" aria-label="左">←</button>
+            <button type="button" class="dpad-down" data-dir="1,0" aria-label="下">↓</button>
+            <button type="button" class="dpad-right" data-dir="0,1" aria-label="右">→</button>
+        </div>
+
+        <p class="hint">方向键 / WASD 移动 · 把箱子推到金色圆点上 · R 重开 · Z 撤销</p>
+    </main>
+
+    <script src="../js/25.推箱子.js"></script>
+</body>
+</html>

@@ -37,7 +37,7 @@ var findKthLargest = function(nums, k) {
                 [heap[i],heap[smallest]]=[heap[smallest],heap[i]];
                 i=smallest;
             }
-        }
+        } 
         return min;
     }
 

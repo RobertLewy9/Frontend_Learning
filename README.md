@@ -52,6 +52,7 @@ front-end-practice/
 | 22 | `html/22.Script的defer.html` | `defer` 延迟并按顺序执行 | `js/22.defer-1-定义函数.js` `js/22.defer-2-调用函数.js` |
 | 23 | `html/23.复制粘贴.html` | Clipboard API / execCommand / 图片复制 | `js/23.剪贴板-三种复制方案.js` |
 | 24 | `html/24.拖拽方块演示.html` | 鼠标拖拽（内联脚本） | — |
+| 25 | `html/25.推箱子.html` | 推箱子游戏：移动、推箱、撤销、4 个关卡 | `js/25.推箱子.js` |
 
 ## 脚本索引
 
@@ -65,6 +66,7 @@ front-end-practice/
 | `js/22.defer-1-定义函数.js` | `defer` 按书写顺序执行（第 1 个） | `html/22.Script的defer.html` |
 | `js/22.defer-2-调用函数.js` | `defer` 按书写顺序执行（第 2 个，调用前一个文件里的函数） | `html/22.Script的defer.html` |
 | `js/23.剪贴板-三种复制方案.js` | Clipboard API / execCommand / 图片 Blob 复制 | `html/23.复制粘贴.html` |
+| `js/25.推箱子.js` | 网格地图解析、碰撞检测、箱子推动判定、撤销栈回滚 | `html/25.推箱子.html` |
 | `js/核心概念-作用域-闭包-原型链.js` | 作用域、闭包、原型链、async/await、事件循环 | 独立笔记 |
 | `js/异步练习-缓存-发布订阅-事件循环-节流.js` | 异步缓存、EventEmitter 发布订阅、事件循环输出顺序、节流 | 独立笔记 |
 | `js/Promise练习-封装fetch请求.js` | Promise、async/await、用 Promise 封装 fetch | 独立笔记 |
